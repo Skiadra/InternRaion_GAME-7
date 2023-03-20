@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
 
     public float speed;
+    public bool airControl;
     public float gravity;
     private float multiplierX;
     private float movementY;
@@ -36,6 +37,7 @@ public class Movement : MonoBehaviour
     private bool wallHug;
     private bool wallJump;
     private int wallJumpCounter = 0;
+    Vector2 v = new Vector2(0, 0);
     private float faceWall;
     [SerializeField] private float xWallJump;
     [SerializeField] private float yWallJump;
@@ -45,13 +47,13 @@ public class Movement : MonoBehaviour
     // private Status state = Status.idle;
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         rb =  GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
         anima = GetComponent<Animator>();
-
+        airControl = true;
     }
 
     // Update is called once per frame
@@ -80,8 +82,8 @@ public class Movement : MonoBehaviour
         {
             multiplierX = 0.2f*facing;
         }
-
-        rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
+        if (airControl == true)
+            rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
 
         if (Input.GetKeyDown(KeyCode.Z) && canDash == true && wallJump == false) 
         {
@@ -126,12 +128,16 @@ public class Movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
         {
             wallJump = true;
-            Invoke("WallJumpOff", 0.2f);
+            Invoke("WallJumpOff", 0.17f);
         }
 
         if(wallJump)
         {
-            rb.velocity = new Vector2(xWallJump*-faceWall, yWallJump);
+            if (rb.velocity.x <= 20 && rb.velocity.x >= -20)
+            {
+                v = new Vector2(rb.velocity.x, rb.velocity.y);
+            }
+            rb.velocity = new Vector2(v.x+(xWallJump*-faceWall), yWallJump);
             wallHug = false;
             tr.emitting = true;
             Invoke("EmitOff", 0.2f);
@@ -144,10 +150,6 @@ public class Movement : MonoBehaviour
         // Animate();
     }
 
-    void FixedUpdate()
-    {
-        
-    }
     private void Animate()
     {
         // Status state;
@@ -208,6 +210,11 @@ public class Movement : MonoBehaviour
     private void EmitOff()
     {
         tr.emitting = false;
+    }
+
+    private void enableAirControl()
+    {
+        airControl = true;
     }
 
     private IEnumerator Dash()
