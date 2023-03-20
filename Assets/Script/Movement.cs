@@ -217,10 +217,10 @@ public class Movement : MonoBehaviour
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
         rb.velocity = new Vector2(facing*dashingPower, 0);
-        // tr.emitting = true;
+        tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         dirX = 0;
-        // tr.emitting = false;
+        tr.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
