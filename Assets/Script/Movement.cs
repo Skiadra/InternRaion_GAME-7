@@ -15,9 +15,10 @@ public class Movement : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
 
     public float speed;
-    public bool airControl;
+    private bool airControl;
     private float multiplierX;
     public float maxFallSpeed;
+    public float normGravity;
     private float dirX;
     private float varX;
     private float facing;
@@ -27,7 +28,7 @@ public class Movement : MonoBehaviour
     //Dashing Var
     [SerializeField] private bool canDash;
     private bool isDashing = false;
-    private float dashingTime = 0.3f;
+    private float dashingTime = 0.2f;
     private float dashingCooldown = .5f;
     [SerializeField] private float dashingPower;
     //WallMovement
@@ -66,25 +67,22 @@ public class Movement : MonoBehaviour
         dirX = Input.GetAxis("Horizontal");
         varX = Input.GetAxisRaw("Horizontal");
 
-        //
+        //Kalo di pencet kanan kiri speed max
         if(varX != 0)
         {
             facing = varX;
             multiplierX = varX;
         }
-
-        if (dirX !=0 && varX == 0)
+        //Kalau baru neken horizontal move key akselerasi ga maks 
+        if (0.25 >= Mathf.Abs(dirX) && varX != 0 )
+        {
+            multiplierX = 0.1f*facing;
+        } else if (dirX !=0 && varX == 0) //Kalau horizontal move key baru dilepas bakal tetep ada akselerasi
         {
             acceleration = (dirX/5)*speed;
-        } else if (0.15 >= Mathf.Abs(dirX) && varX != 0 && dirX != 0)
-        {
-            multiplierX = 0.2f*facing;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && canDash == true && wallJump == false) 
-        {
-            StartCoroutine(Dash());
-        }
+        rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
         
         //VERTICAL MOVEMENT
         if(IsGrounded())
@@ -95,31 +93,39 @@ public class Movement : MonoBehaviour
             jumpTimeCounter -= Time.deltaTime;
         }
 
+
         if (Input.GetKeyDown(KeyCode.X) && jumpTimeCounter > 0f)
         { 
             Debug.Log("Jump");
             rb.velocity = new Vector2 (rb.velocity.x, 25f);
         }
+
         if (Input.GetKeyUp(KeyCode.X) && rb.velocity.y > 0f)
         {
             jumpTimeCounter = 0;
         }
 
-        //Wall Movement
+        if (rb.velocity.y < maxFallSpeed)    
+            rb.velocity = new Vector2(multiplierX*speed+acceleration, maxFallSpeed);
 
+        //Wall Movement
         if(OnTheWall() == true && IsGrounded() == false && Input.GetKey(KeyCode.Space))
         {
             wallHug = true;
-            
+            gravityOff();
         } else
         {
             wallHug = false;
+            if (rb.velocity.y < 0)
+                rb.gravityScale = 12;
+            else
+                gravityOn();
         }
 
         if(wallHug)
         {
             faceWall = facing;
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity = new Vector2(0, 0);
         } 
         
         if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
@@ -130,11 +136,7 @@ public class Movement : MonoBehaviour
 
         if(wallJump)
         {
-            if (rb.velocity.x <= 20 && rb.velocity.x >= -20)
-            {
-                v = new Vector2(rb.velocity.x, rb.velocity.y);
-            }
-            rb.velocity = new Vector2(v.x+(xWallJump*-faceWall), yWallJump);
+            rb.velocity = new Vector2(rb.velocity.x, yWallJump);
             wallHug = false;
             tr.emitting = true;
             Invoke("EmitOff", 0.2f);
@@ -144,54 +146,56 @@ public class Movement : MonoBehaviour
             wallJumpCounter = 0;
         }
 
-        rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
-        if (rb.velocity.y < maxFallSpeed)    
-            rb.velocity = new Vector2(multiplierX*speed+acceleration, maxFallSpeed);
+        //Dash
+        if (Input.GetKeyDown(KeyCode.Z) && canDash && !wallHug) 
+        {
+            StartCoroutine(Dash());
+        }
 
-        Debug.Log("Speed : " + rb.velocity.y);
+        Debug.Log("Speed : " + rb.velocity.x);
         // Animate();
     }
 
-    private void Animate()
-    {
-        // Status state;
+    // private void Animate()
+    // {
+    //     // Status state;
         
-        // if (dirX > 0 && wallHug == false)
-        // {
-        //     sprite.flipX = true;
-        //     state = Status.walking;
-        //     if (rb.velocity.x >= 20)
-        //     {
-        //         state = Status.running;
-        //     }
-        // } else if (dirX < 0 && wallHug == false)
-        // {
-        //     state = Status.walking;
-        //     sprite.flipX = false;
-        //     if (rb.velocity.x <= -20)
-        //     {
-        //         state = Status.running;
-        //     }
-        // } else
-        // {
-        //     state = Status.idle;
-        // }
+    //     // if (dirX > 0 && wallHug == false)
+    //     // {
+    //     //     sprite.flipX = true;
+    //     //     state = Status.walking;
+    //     //     if (rb.velocity.x >= 20)
+    //     //     {
+    //     //         state = Status.running;
+    //     //     }
+    //     // } else if (dirX < 0 && wallHug == false)
+    //     // {
+    //     //     state = Status.walking;
+    //     //     sprite.flipX = false;
+    //     //     if (rb.velocity.x <= -20)
+    //     //     {
+    //     //         state = Status.running;
+    //     //     }
+    //     // } else
+    //     // {
+    //     //     state = Status.idle;
+    //     // }
 
-        // if (rb.velocity.y > 0.01)
-        // {
-        //     state = Status.jumping;
-        // } else if (rb.velocity.y < -0.1 && IsGrounded() == false)
-        // {
-        //     state = Status.falling;
-        // }
+    //     // if (rb.velocity.y > 0.01)
+    //     // {
+    //     //     state = Status.jumping;
+    //     // } else if (rb.velocity.y < -0.1 && IsGrounded() == false)
+    //     // {
+    //     //     state = Status.falling;
+    //     // }
 
-        // if(wallJump)
-        // {
-        //     sprite.flipX = true;
-        // }
+    //     // if(wallJump)
+    //     // {
+    //     //     sprite.flipX = true;
+    //     // }
 
-        // anima.SetInteger("state", (int)state);
-    }
+    //     // anima.SetInteger("state", (int)state);
+    // }
 
     private bool IsGrounded()
     {
@@ -208,7 +212,16 @@ public class Movement : MonoBehaviour
         wallJump = false;
         wallJumpCounter++;
     }
+    
+    private void gravityOff()
+    {
+        rb.gravityScale = 0;
+    }
 
+    private void gravityOn()
+    {
+        rb.gravityScale = normGravity;
+    }
     private void EmitOff()
     {
         tr.emitting = false;

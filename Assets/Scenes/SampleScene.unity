@@ -333,7 +333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749428566}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.46, y: 19.28, z: 0}
+  m_LocalPosition: {x: 1.02, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -352,12 +352,12 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  m_UseAutoMass: 1
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 10
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: e53a3f7b8cb8fe145a768bcec715358b, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -371,7 +371,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1749428566}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: e53a3f7b8cb8fe145a768bcec715358b, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -405,12 +405,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   speed: 20
-  airControl: 0
-  maxFallSpeed: -25
+  maxFallSpeed: -30
+  normGravity: 10
   coyoteTime: 0.2
   canDash: 1
   dashingPower: 40
-  xWallJump: 10
+  xWallJump: 0
   yWallJump: 20
 --- !u!96 &1749428572
 TrailRenderer:
@@ -454,7 +454,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -541,9 +541,9 @@ GameObject:
   - component: {fileID: 1998781512}
   - component: {fileID: 1998781511}
   - component: {fileID: 1998781510}
+  - component: {fileID: 1998781507}
   - component: {fileID: 1998781509}
   - component: {fileID: 1998781508}
-  - component: {fileID: 1998781507}
   m_Layer: 3
   m_Name: Tilemap
   m_TagString: Untagged
@@ -685,7 +685,7 @@ PlatformEffector2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998781505}
   m_Enabled: 1
-  m_UseColliderMask: 1
+  m_UseColliderMask: 0
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -707,7 +707,7 @@ TilemapCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 1
+  m_UsedByEffector: 0
   m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
