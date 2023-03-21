@@ -16,14 +16,12 @@ public class Movement : MonoBehaviour
 
     public float speed;
     public bool airControl;
-    public float gravity;
     private float multiplierX;
-    private float movementY;
+    public float maxFallSpeed;
     private float dirX;
     private float varX;
     private float facing;
     private float acceleration;
-    private float startTime;
     [SerializeField] private float coyoteTime;
     private float jumpTimeCounter;
     //Dashing Var
@@ -33,7 +31,6 @@ public class Movement : MonoBehaviour
     private float dashingCooldown = .5f;
     [SerializeField] private float dashingPower;
     //WallMovement
-    private bool isTouchingWall;
     private bool wallHug;
     private bool wallJump;
     private int wallJumpCounter = 0;
@@ -69,6 +66,7 @@ public class Movement : MonoBehaviour
         dirX = Input.GetAxis("Horizontal");
         varX = Input.GetAxisRaw("Horizontal");
 
+        //
         if(varX != 0)
         {
             facing = varX;
@@ -82,8 +80,6 @@ public class Movement : MonoBehaviour
         {
             multiplierX = 0.2f*facing;
         }
-        if (airControl == true)
-            rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
 
         if (Input.GetKeyDown(KeyCode.Z) && canDash == true && wallJump == false) 
         {
@@ -123,8 +119,9 @@ public class Movement : MonoBehaviour
         if(wallHug)
         {
             faceWall = facing;
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, 0f, 0.1f));
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         } 
+        
         if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
         {
             wallJump = true;
@@ -146,7 +143,12 @@ public class Movement : MonoBehaviour
         {
             wallJumpCounter = 0;
         }
-        Debug.Log("Speed : " + rb.velocity.x);
+
+        rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
+        if (rb.velocity.y < maxFallSpeed)    
+            rb.velocity = new Vector2(multiplierX*speed+acceleration, maxFallSpeed);
+
+        Debug.Log("Speed : " + rb.velocity.y);
         // Animate();
     }
 
