@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class Movement : MonoBehaviour
     //Dashing Var
     [SerializeField] private bool canDash;
     private bool isDashing = false;
-    private float dashingTime = 0.2f;
+    private float dashingTime = 0.1f;
     private float dashingCooldown = .5f;
     [SerializeField] private float dashingPower;
     //WallMovement
@@ -125,7 +126,7 @@ public class Movement : MonoBehaviour
         if(wallHug)
         {
             faceWall = facing;
-            rb.velocity = new Vector2(0, 0);
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         } 
         
         if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
@@ -152,7 +153,7 @@ public class Movement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
-        Debug.Log("Speed : " + rb.velocity.x);
+        // Debug.Log("Speed : " + rb.velocity.x);
         // Animate();
     }
 
@@ -204,7 +205,7 @@ public class Movement : MonoBehaviour
 
     private bool OnTheWall()
     {
-        return Physics2D.BoxCast(collide.bounds.center, collide.bounds.size, 0f, new Vector2(facing, 0), 0.1f, jumpableGround);
+        return Physics2D.BoxCast(collide.bounds.center, new Vector2(collide.size.x+.2f, collide.size.y), 0f, new Vector2(0, 0), 0.1f, jumpableGround);
     }
 
     private void WallJumpOff()
