@@ -29,16 +29,13 @@ public class Movement : MonoBehaviour
     //Dashing Var
     [SerializeField] private bool canDash;
     private bool isDashing = false;
-    private float dashingTime = 0.1f;
+    private float dashingTime = 0.15f;
     private float dashingCooldown = .5f;
     [SerializeField] private float dashingPower;
     //WallMovement
     private bool wallHug;
     private bool wallJump;
     private int wallJumpCounter = 0;
-    Vector2 v = new Vector2(0, 0);
-    private float faceWall;
-    [SerializeField] private float xWallJump;
     [SerializeField] private float yWallJump;
 
 
@@ -75,12 +72,13 @@ public class Movement : MonoBehaviour
             multiplierX = varX;
         }
         //Kalau baru neken horizontal move key akselerasi ga maks 
-        if (0.25 >= Mathf.Abs(dirX) && varX != 0 )
+        // if (0.4 >= Mathf.Abs(dirX) && varX != 0 )
+        // {
+        //     multiplierX = 0.1f*facing;
+        // } else 
+        if (dirX !=0 && varX == 0) //Kalau horizontal move key baru dilepas bakal tetep ada akselerasi
         {
-            multiplierX = 0.1f*facing;
-        } else if (dirX !=0 && varX == 0) //Kalau horizontal move key baru dilepas bakal tetep ada akselerasi
-        {
-            acceleration = (dirX/5)*speed;
+            acceleration = (dirX/4)*speed;
         }
 
         rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
@@ -97,7 +95,6 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X) && jumpTimeCounter > 0f)
         { 
-            Debug.Log("Jump");
             rb.velocity = new Vector2 (rb.velocity.x, 25f);
         }
 
@@ -109,11 +106,10 @@ public class Movement : MonoBehaviour
         if (rb.velocity.y < maxFallSpeed)    
             rb.velocity = new Vector2(multiplierX*speed+acceleration, maxFallSpeed);
 
-        //Wall Movement
-        if(OnTheWall() == true && IsGrounded() == false && Input.GetKey(KeyCode.Space))
+        //Wall Hug
+        if(OnTheWall() == true && IsGrounded() == false && Input.GetButton("Horizontal") && rb.velocity.y <= .5f)
         {
             wallHug = true;
-            gravityOff();
         } else
         {
             wallHug = false;
@@ -125,14 +121,20 @@ public class Movement : MonoBehaviour
 
         if(wallHug)
         {
-            faceWall = facing;
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            if (Input.GetKey(KeyCode.Space))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                gravityOff();
+            }
+            else
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/2);
         } 
-        
+
+        //Wall Jump
         if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
         {
             wallJump = true;
-            Invoke("WallJumpOff", 0.17f);
+            Invoke("WallJumpOff", 0.3f);
         }
 
         if(wallJump)
@@ -140,7 +142,7 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, yWallJump);
             wallHug = false;
             tr.emitting = true;
-            Invoke("EmitOff", 0.2f);
+            Invoke("EmitOff", 0.3f);
         }
         if(IsGrounded())
         {
@@ -153,7 +155,7 @@ public class Movement : MonoBehaviour
             StartCoroutine(Dash());
         }
 
-        // Debug.Log("Speed : " + rb.velocity.x);
+        Debug.Log("Speed : " + rb.velocity.x);
         // Animate();
     }
 
@@ -200,12 +202,13 @@ public class Movement : MonoBehaviour
 
     private bool IsGrounded()
     {
+
         return Physics2D.BoxCast(collide.bounds.center, collide.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
     }
 
     private bool OnTheWall()
     {
-        return Physics2D.BoxCast(collide.bounds.center, new Vector2(collide.size.x+.2f, collide.size.y), 0f, new Vector2(0, 0), 0.1f, jumpableGround);
+        return Physics2D.BoxCast(collide.bounds.center, new Vector2(collide.size.x+.2f, collide.size.y-.5f), 0f, new Vector2(0, 0), 0.1f, jumpableGround);
     }
 
     private void WallJumpOff()
