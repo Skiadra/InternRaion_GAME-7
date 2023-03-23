@@ -30,13 +30,14 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool canDash;
     private bool isDashing = false;
     private float dashingTime = 0.15f;
-    private float dashingCooldown = .5f;
+    private float dashingCooldown = 1f;
     [SerializeField] private float dashingPower;
     //WallMovement
     private bool wallHug;
     private bool wallJump;
     private int wallJumpCounter = 0;
-    [SerializeField] private float yWallJump;
+    // public float xWallJump;
+    public float yWallJump;
 
 
     // private enum Status { idle, walking, running, jumping, falling}
@@ -70,18 +71,12 @@ public class Movement : MonoBehaviour
         {
             facing = varX;
             multiplierX = varX;
-        }
-        //Kalau baru neken horizontal move key akselerasi ga maks 
-        // if (0.4 >= Mathf.Abs(dirX) && varX != 0 )
-        // {
-        //     multiplierX = 0.1f*facing;
-        // } else 
-        if (dirX !=0 && varX == 0) //Kalau horizontal move key baru dilepas bakal tetep ada akselerasi
+        } else if (dirX !=0 && varX == 0) //Kalau horizontal move key baru dilepas bakal tetep ada akselerasi
         {
             acceleration = (dirX/4)*speed;
         }
 
-        rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y);
+        rb.velocity = new Vector2(multiplierX*speed+acceleration, rb.velocity.y); //rubah velocity
         
         //VERTICAL MOVEMENT
         if(IsGrounded())
@@ -92,10 +87,11 @@ public class Movement : MonoBehaviour
             jumpTimeCounter -= Time.deltaTime;
         }
 
-
+        //Jump
         if (Input.GetKeyDown(KeyCode.X) && jumpTimeCounter > 0f)
         { 
             rb.velocity = new Vector2 (rb.velocity.x, 25f);
+            jumpTimeCounter = 0;
         }
 
         if (Input.GetKeyUp(KeyCode.X) && rb.velocity.y > 0f)
@@ -103,17 +99,18 @@ public class Movement : MonoBehaviour
             jumpTimeCounter = 0;
         }
 
+        //Maximum falling speed
         if (rb.velocity.y < maxFallSpeed)    
-            rb.velocity = new Vector2(multiplierX*speed+acceleration, maxFallSpeed);
+            rb.velocity = new Vector2(rb.velocity.x, maxFallSpeed);
 
         //Wall Hug
         if(OnTheWall() == true && IsGrounded() == false && Input.GetButton("Horizontal") && rb.velocity.y <= .5f)
         {
-            wallHug = true;
+            wallHug = true; //Aktivasi wallhug
         } else
         {
-            wallHug = false;
-            if (rb.velocity.y < 0)
+            wallHug = false; //Wallhug mati
+            if (rb.velocity.y < 0 && !wallHug)
                 rb.gravityScale = 12;
             else
                 gravityOn();
@@ -123,26 +120,29 @@ public class Movement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.velocity = new Vector2(rb.velocity.x, 0); //Kalo nahan space ga turun
                 gravityOff();
             }
             else
+            {
+                gravityOn();
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/2);
+            }
         } 
 
         //Wall Jump
         if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
         {
-            wallJump = true;
-            Invoke("WallJumpOff", 0.3f);
+            wallJump = true; //Aktivasi walljump
+            Invoke("WallJumpOff", 0.05f); //Mematikan wall jump dalam .05 detik
         }
 
         if(wallJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, yWallJump);
-            wallHug = false;
-            tr.emitting = true;
-            Invoke("EmitOff", 0.3f);
+            rb.velocity = new Vector2(rb.velocity.x, yWallJump); //mengubah velocity
+            wallHug = false; //wallhug mati
+            tr.emitting = true; //efek trail nyala
+            Invoke("EmitOff", 0.25f); //mematikan efek trail dalam 0.25 detik
         }
         if(IsGrounded())
         {
@@ -152,10 +152,9 @@ public class Movement : MonoBehaviour
         //Dash
         if (Input.GetKeyDown(KeyCode.Z) && canDash && !wallHug) 
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Dash());//Menyalakan dash
         }
 
-        Debug.Log("Speed : " + rb.velocity.x);
         // Animate();
     }
 
@@ -241,11 +240,11 @@ public class Movement : MonoBehaviour
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0;
-        rb.velocity = new Vector2(facing*dashingPower, 0);
-        tr.emitting = true;
+        rb.gravityScale = 0; //Gravitasi menjadi 0
+        rb.velocity = new Vector2(facing*dashingPower, 0); //Mengubah velocity
+        tr.emitting = true; //Trail nyala
         yield return new WaitForSeconds(dashingTime);
-        dirX = 0;
+        dirX = .4f;
         tr.emitting = false;
         rb.gravityScale = originalGravity;
         isDashing = false;
