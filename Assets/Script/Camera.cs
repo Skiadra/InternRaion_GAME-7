@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Camera : MonoBehaviour
 {
@@ -14,11 +15,11 @@ public class Camera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Mathf.Abs(target.transform.position.x - gameObject.transform.position.x) > 4 || Mathf.Abs(target.transform.position.y - gameObject.transform.position.y) > 2f){
+        if (Mathf.Abs(target.transform.position.x - gameObject.transform.position.x) > 5 || Mathf.Abs(target.transform.position.y - gameObject.transform.position.y) > 2f){
             newPos = new Vector3(target.position.x, target.position.y + yOffSet, -10f);
-            transform.position = Vector3.Slerp(transform.position, newPos, followSpeed*Time.deltaTime);
         }
+        transform.position = Vector3.Lerp(transform.position, newPos, followSpeed*Time.fixedDeltaTime);
     }
 }

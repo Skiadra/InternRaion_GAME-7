@@ -166,7 +166,7 @@ Transform:
   m_Children:
   - {fileID: 1998781506}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1536416737
 GameObject:
@@ -322,10 +322,9 @@ Transform:
   m_LocalPosition: {x: 4.07, y: 1.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1631017910}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &1536416743
 TrailRenderer:
@@ -455,6 +454,7 @@ GameObject:
   - component: {fileID: 1631017910}
   - component: {fileID: 1631017912}
   - component: {fileID: 1631017911}
+  - component: {fileID: 1631017913}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -470,11 +470,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631017909}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.36524463}
+  m_LocalPosition: {x: 4.07, y: 1.14, z: -0.36524463}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1536416742}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1631017911
@@ -528,6 +528,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1631017913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631017909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb617289226a13b47b73359ed784a250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followSpeed: 2.8
+  yOffSet: 1
+  target: {fileID: 1536416742}
 --- !u!1 &1998781505
 GameObject:
   m_ObjectHideFlags: 0
