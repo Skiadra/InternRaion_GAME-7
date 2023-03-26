@@ -167,6 +167,7 @@ Transform:
   - {fileID: 1998781506}
   m_Father: {fileID: 0}
   m_RootOrder: 2
+<<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &401183104
 GameObject:
@@ -578,6 +579,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1597267582}
   m_RootOrder: 1
+=======
+>>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1104,6 +1107,7 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1807421979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,11 +1130,15 @@ GameObject:
 =======
 --- !u!114 &1631017913
 >>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
+=======
+--- !u!114 &1631017913
+>>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_GameObject: {fileID: 1807421979}
   m_Enabled: 1
@@ -1177,6 +1185,8 @@ Transform:
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
+=======
+>>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
   m_GameObject: {fileID: 1631017909}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1186,6 +1196,9 @@ Transform:
   followSpeed: 2.8
   yOffSet: 1
   target: {fileID: 1536416742}
+<<<<<<< HEAD
+>>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
+=======
 >>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
 --- !u!1 &1998781505
 GameObject:

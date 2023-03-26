@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {}
 =======
+=======
+>>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
 trackSelection = true
 fetchPreview = true
 defaultFlags = 0
@@ -69,5 +72,9 @@ expandedQueries = [
 queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
+<<<<<<< HEAD
+disabledIndexers = ""
+>>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
+=======
 disabledIndexers = ""
 >>>>>>> 18e275cbb78e64a07bf0d454675514e79a1e3130
