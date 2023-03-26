@@ -122,6 +122,7 @@ public class Movement : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0); //Kalo nahan space ga turun
                 gravityOff();
+                
             }
             else
             {
