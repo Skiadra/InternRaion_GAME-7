@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    public static Movement move;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private BoxCollider2D collide;
@@ -16,7 +17,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
 
     public float speed;
-    private bool airControl;
+    public bool inControl;
     private float multiplierX;
     public float maxFallSpeed;
     public float normGravity;
@@ -24,6 +25,9 @@ public class Movement : MonoBehaviour
     private float varX;
     private float facing;
     private float acceleration;
+    public float jumpForce;
+    public bool doubleJump;
+    private int doubleJumpCount;
     [SerializeField] private float coyoteTime;
     private float jumpTimeCounter;
     //Dashing Var
@@ -50,12 +54,19 @@ public class Movement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
         anima = GetComponent<Animator>();
-        airControl = true;
+        doubleJumpCount = 0;
+        inControl = true;
+        move = this;
     }
 
     // Update is called once per frame
     private void Update()
     {   
+        if (!inControl)
+        {
+            rb.velocity = new Vector2(0,rb.velocity.y);//Kalo lagi buka menu ga bisa gerak
+            return;
+        }
         if(isDashing)
         {
             return;
@@ -90,7 +101,7 @@ public class Movement : MonoBehaviour
         //Jump
         if (Input.GetKeyDown(KeyCode.X) && jumpTimeCounter > 0f)
         { 
-            rb.velocity = new Vector2 (rb.velocity.x, 25f);
+            rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
             jumpTimeCounter = 0;
         }
 
@@ -98,6 +109,16 @@ public class Movement : MonoBehaviour
         {
             jumpTimeCounter = 0;
         }
+        //Double Jump
+        if (doubleJumpCount < 1 && Input.GetKeyDown(KeyCode.X) && !IsGrounded() && !wallHug)
+        {
+            rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
+            doubleJumpCount++;
+        }
+        if (doubleJump == true)
+        {
+            if (IsGrounded()) doubleJumpCount = 0;
+        } else doubleJumpCount = 1;
 
         //Maximum falling speed
         if (rb.velocity.y < maxFallSpeed)    
@@ -229,11 +250,6 @@ public class Movement : MonoBehaviour
     private void EmitOff()
     {
         tr.emitting = false;
-    }
-
-    private void enableAirControl()
-    {
-        airControl = true;
     }
 
     private IEnumerator Dash()
