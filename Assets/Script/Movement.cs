@@ -98,6 +98,17 @@ public class Movement : MonoBehaviour
             jumpTimeCounter -= Time.deltaTime;
         }
 
+        //Double Jump
+        if (doubleJumpCount < 1 && Input.GetKeyDown(KeyCode.X) && !IsGrounded() && !wallHug && jumpTimeCounter <= .03f)
+        {
+            rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
+            doubleJumpCount++;
+        }
+        if (doubleJump == true)
+        {
+            if (IsGrounded()) doubleJumpCount = 0;
+        } else doubleJumpCount = 1;
+
         //Jump
         if (Input.GetKeyDown(KeyCode.X) && jumpTimeCounter > 0f)
         { 
@@ -109,16 +120,6 @@ public class Movement : MonoBehaviour
         {
             jumpTimeCounter = 0;
         }
-        //Double Jump
-        if (doubleJumpCount < 1 && Input.GetKeyDown(KeyCode.X) && !IsGrounded() && !wallHug)
-        {
-            rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
-            doubleJumpCount++;
-        }
-        if (doubleJump == true)
-        {
-            if (IsGrounded()) doubleJumpCount = 0;
-        } else doubleJumpCount = 1;
 
         //Maximum falling speed
         if (rb.velocity.y < maxFallSpeed)    
@@ -132,7 +133,7 @@ public class Movement : MonoBehaviour
         {
             wallHug = false; //Wallhug mati
             if (rb.velocity.y < 0 && !wallHug)
-                rb.gravityScale = 12;
+                rb.gravityScale = 8;
             else
                 gravityOn();
         }
