@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static SkillTree;
 using static Movement;
+using System.Data;
 
 public class Skill : MonoBehaviour
 {
@@ -11,19 +12,29 @@ public class Skill : MonoBehaviour
     public object temp;
     public TMP_Text namae;
     public int[] connectedSkill;
+    public GameObject connector;
 
     public void UpdateUI()
     {
         namae.text = $"{skillTree.skillNames[id]}"; //Ngubah text value jdi nama skill
         GetComponent<Image>().color = skillTree.unlocked[id] == true ? Color.red: Color.gray; //kalo dah diunlock jadi warna merah, belom jd abu
+        connector.GetComponent<Image>().color = skillTree.unlocked[id] == true ? Color.red: Color.gray; 
     }
 
     public void GetSkill()
     {
         //Check jika ada skill lain yg udah aktif maka getSKill tidak dijalankan
-        for (int i = 0; i < skillTree.skillList.Count; i++)
+        if (id != skillTree.unlocked.Length-1)
         {
-            if (skillTree.skillNames[i] != skillTree.skillNames[id] && skillTree.unlocked[i] == true)
+            if (skillTree.unlocked[id+1] == true && id%2 == 0)
+            {
+                return;
+            }
+        }
+
+        if (id != 0)
+        {
+            if (skillTree.unlocked[id-1] == true && id%2 == 1)
             {
                 return;
             }
@@ -38,41 +49,74 @@ public class Skill : MonoBehaviour
             return;
         }
         if (skillTree.skillPoint < 1) return; //Kalo skill poin gak cukup return
-        
+
+        for (int i = 0; i < connectedSkill.Length; i++)
+        {
+            if (!skillTree.unlocked[connectedSkill[i]]) return;
+        }
+
         skillTree.skillPoint -=1; //SKill poin kurang 1
         Invoke(skillTree.skillEffect[id], 0f); //Aktivasi skill effect
         skillTree.unlocked[id] = true; //Unlock skill
         
-        //Menonaktifkan skill lain kecuali skill yang dipilih
-        for (int i = 0; i < skillTree.skillList.Count; i++)
-        {
-            if (skillTree.skillNames[i] != skillTree.skillNames[id])
-            {
-                skillTree.unlocked[i] = false;
-            }
-        }
         skillTree.UpdateSkillUI();
     }
 
     //Menambah Tinggi Jump
-    void hJump()
+    void hSplash()
     {
         move.jumpForce = 30f;
     }
     //Mengembalikan tinggi jump seperti semula
-    void hJumpLock()
+    void hSplashLock()
     {
         move.jumpForce = 20f;
     }
 
     //Enable double jump
-    void dJump()
+    void dSplash()
     {
         move.doubleJump = true;
     }
     //Disable double jump
-    void dJumpLock()
+    void dSplashLock()
     {
         move.doubleJump = false;
+    }
+
+    void sDash()
+    {
+        move.canDashReset = true;
+    }
+    void sDashLock()
+    {
+        move.canDashReset = false;
+    }
+
+    void sFall()
+    {
+        move.maxFallSpeed = -10f;
+    }
+    void sFallLock()
+    {
+        move.maxFallSpeed = -25f;
+    }
+
+    void absorb()
+    {
+        move.absorb = true;
+    }
+
+    void absorbLock()
+    {
+        move.absorb = false;
+    }
+    void slider()
+    {
+        move.maxWallJump = 2;
+    }
+    void sliderLock()
+    {
+        move.maxWallJump = 1;
     }
 }

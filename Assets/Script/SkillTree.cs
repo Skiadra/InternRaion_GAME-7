@@ -14,15 +14,14 @@ public class SkillTree : MonoBehaviour
 
     public List<Skill> skillList;
     public GameObject skillHolder;
-    public GameObject dashHolder;
     public int skillPoint;
 
     private void Start()
     {
-        unlocked = new bool[2];
-        skillNames = new[] {"Double Jump", "High Jump"};
-        skillEffect = new[] {"dJump", "hJump"};
-        releaseEffect = new[] {"dJumpLock", "hJumpLock"};
+        unlocked = new bool[6];
+        // skillNames = new[] {"Double Splash", "High Splash", "Slow Fall", "Splash Dash"};
+        // skillEffect = new[] {"dJump", "hJump", "sFall", "sDash"};
+        // releaseEffect = new[] {"dJumpLock", "hJumpLock", "sFallLock", "sDashLock"};
 
         foreach (var skill in skillHolder.GetComponentsInChildren<Skill>()) skillList.Add(skill); //Nambah list dengan skill yg ada
 

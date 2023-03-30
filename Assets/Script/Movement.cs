@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -35,11 +32,18 @@ public class Movement : MonoBehaviour
     private bool isDashing = false;
     private float dashingTime = 0.15f;
     private float dashingCooldown = 1f;
+    private bool dashReset;
+    public bool canDashReset = false;
     [SerializeField] private float dashingPower;
     //WallMovement
     private bool wallHug;
+    public float wallHugTime;
+    private float wallHugCounter;
+    public bool absorb = false;
     private bool wallJump;
     private int wallJumpCounter = 0;
+    public int maxWallJump;
+    private float wallJumpTime;
     // public float xWallJump;
     public float yWallJump;
 
@@ -93,6 +97,8 @@ public class Movement : MonoBehaviour
         if(IsGrounded())
         {
             jumpTimeCounter = coyoteTime;
+            wallHugCounter = wallHugTime;
+            if (canDashReset) dashReset = true;
         } else
         {
             jumpTimeCounter -= Time.deltaTime;
@@ -102,6 +108,12 @@ public class Movement : MonoBehaviour
         if (doubleJumpCount < 1 && Input.GetKeyDown(KeyCode.X) && !IsGrounded() && !wallHug && jumpTimeCounter <= .03f)
         {
             rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
+            if (dashReset) 
+            {
+                StopCoroutine(Dash());
+                canDash = true;
+                dashReset = false;
+            }
             doubleJumpCount++;
         }
         if (doubleJump == true)
@@ -126,21 +138,27 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, maxFallSpeed);
 
         //Wall Hug
-        if(OnTheWall() == true && IsGrounded() == false && Input.GetButton("Horizontal") && rb.velocity.y <= .5f)
+        if(OnTheWall() == true && IsGrounded() == false && Input.GetButton("Horizontal") && rb.velocity.y <= 5f && wallHugCounter > 0)
         {
             wallHug = true; //Aktivasi wallhug
+            wallJumpTime = .08f;
+            wallHugCounter -= Time.deltaTime;
         } else
         {
-            wallHug = false; //Wallhug mati
+            wallHug = false;//Wallhug mati
+            if (wallJumpTime > 0)
+                wallJumpTime -= Time.deltaTime;
             if (rb.velocity.y < 0 && !wallHug)
+            {
                 rb.gravityScale = 8;
+            }
             else
                 gravityOn();
         }
 
         if(wallHug)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && absorb)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0); //Kalo nahan space ga turun
                 gravityOff();
@@ -154,15 +172,19 @@ public class Movement : MonoBehaviour
         } 
 
         //Wall Jump
-        if(Input.GetKeyDown(KeyCode.X) && wallHug && wallJumpCounter < 2)
+        if(Input.GetKeyDown(KeyCode.X) && wallJumpTime > 0 && wallJumpCounter < maxWallJump)
         {
             wallJump = true; //Aktivasi walljump
+            wallJumpTime = 0;
             Invoke("WallJumpOff", 0.05f); //Mematikan wall jump dalam .05 detik
         }
 
         if(wallJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, yWallJump); //mengubah velocity
+            float temp = jumpForce;
+            if (jumpForce >  25) jumpForce -= 5;
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce); //mengubah velocity
+            jumpForce = temp;
             wallHug = false; //wallhug mati
             tr.emitting = true; //efek trail nyala
             Invoke("EmitOff", 0.25f); //mematikan efek trail dalam 0.25 detik
@@ -177,6 +199,8 @@ public class Movement : MonoBehaviour
         {
             StartCoroutine(Dash());//Menyalakan dash
         }
+
+        Debug.Log(dashReset);
 
         // Animate();
     }
