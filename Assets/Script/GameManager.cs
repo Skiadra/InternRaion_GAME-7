@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using static Movement;
+using static SkillTree;
 
 public class GameManager : MonoBehaviour
 {
     int index;
+    public int addSkillPoints;
     public static bool loadStat;
     public static bool newStat;
     public GameObject pauseMenu;
@@ -26,6 +28,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    void Start()
+    {
+        skillTree.skillPoint += addSkillPoints;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -36,5 +43,6 @@ public class GameManager : MonoBehaviour
             var eventSystem = EventSystem.current;
             eventSystem.SetSelectedGameObject(firstPauseButton, new BaseEventData(eventSystem));
         }
+        Debug.Log(skillTree.skillPoint);
     }
 }

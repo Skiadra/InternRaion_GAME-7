@@ -10,7 +10,9 @@ public class SkillTree : MonoBehaviour
     public String[] skillNames;
     public String[] skillEffect;
     public String[] releaseEffect;
-
+    public String[] description;
+    public GameObject[] des;
+ 
     public List<Skill> skillList;
     public GameObject skillHolder;
     public int skillPoint;

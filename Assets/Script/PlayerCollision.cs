@@ -34,7 +34,6 @@ public class PlayerCollision : MonoBehaviour
     {
         if (interact && Input.GetKeyDown(KeyCode.UpArrow) && !isInteracting)
         {
-            Debug.Log("Interact");
             interactButton.SetActive(false);
             menu.SetActive(true);
             move.inControl = false;

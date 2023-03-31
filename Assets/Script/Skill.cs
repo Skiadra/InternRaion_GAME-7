@@ -4,15 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using static SkillTree;
 using static Movement;
-using System.Data;
+using UnityEngine.EventSystems;
 
-public class Skill : MonoBehaviour
+public class Skill : MonoBehaviour, ISelectHandler
 {
     public int id;
     public object temp;
     public TMP_Text namae;
+    public TMP_Text des;
     public int[] connectedSkill;
     public GameObject connector;
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (eventData.selectedObject == gameObject)
+        {
+            for (int i = 0; i < skillTree.des.Length; i++)
+            {
+                skillTree.des[i].SetActive(false);
+            }
+            des.text = skillTree.description[id];
+            skillTree.des[id].SetActive(true);
+        } 
+    }
+
 
     public void UpdateUI()
     {
