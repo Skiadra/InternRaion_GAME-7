@@ -2264,6 +2264,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 478484358, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
+      propertyPath: skillNames.Array.data[3]
+      value: Slow Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 478484358, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
+      propertyPath: skillEffect.Array.data[3]
+      value: sDrop
+      objectReference: {fileID: 0}
+    - target: {fileID: 478484358, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
+      propertyPath: releaseEffect.Array.data[3]
+      value: sDropLock
+      objectReference: {fileID: 0}
     - target: {fileID: 6472223838183973274, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_Name
       value: Canvas

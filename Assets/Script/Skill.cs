@@ -93,11 +93,11 @@ public class Skill : MonoBehaviour
         move.canDashReset = false;
     }
 
-    void sFall()
+    void sDrop()
     {
-        move.maxFallSpeed = -10f;
+        move.maxFallSpeed = -5f;
     }
-    void sFallLock()
+    void sDropLock()
     {
         move.maxFallSpeed = -25f;
     }
