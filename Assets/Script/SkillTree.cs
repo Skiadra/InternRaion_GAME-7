@@ -6,7 +6,6 @@ using UnityEngine;
 public class SkillTree : MonoBehaviour
 {
     public static SkillTree skillTree;
-    private void Awake() => skillTree = this;
     public bool[] unlocked;
     public String[] skillNames;
     public String[] skillEffect;
@@ -16,8 +15,9 @@ public class SkillTree : MonoBehaviour
     public GameObject skillHolder;
     public int skillPoint;
 
-    private void Start()
+    private void Awake()
     {
+        skillTree = this;
         unlocked = new bool[6];
         // skillNames = new[] {"Double Splash", "High Splash", "Slow Fall", "Splash Dash"};
         // skillEffect = new[] {"dJump", "hJump", "sFall", "sDash"};

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static SkillTree;
 
 public class Movement : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] private LayerMask jumpableGround;
+
+    //SaveLoadSystem
+    [SerializeField] private bool saveLoadSystem;
 
     public float speed;
     public bool inControl;
@@ -54,6 +58,19 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        if (saveLoadSystem)
+        {
+            if (GameManager.loadStat)
+            {
+                loadPos();
+                GameManager.loadStat = false;
+            }
+            if (!GameManager.newStat)
+            {
+                loadData();
+                saveData();
+            }
+        }
         rb =  GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
@@ -275,6 +292,44 @@ public class Movement : MonoBehaviour
     private void EmitOff()
     {
         tr.emitting = false;
+    }
+
+    //Save-Load method
+    public void saveData()
+    {
+        SaveSystem.SavePlayer(this, skillTree);
+    }
+
+    public void loadData()
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+
+        doubleJump = data.canDoubleJump;
+        canDashReset = data.canDashReset;
+        jumpForce = data.jumpForce;
+        absorb = data.canAbsorb;
+        maxFallSpeed = data.maxFallSpeed;
+        maxWallJump = data.maxWallJump;
+        for (int i = 0; i < skillTree.unlocked.Length; i++)
+        {
+            skillTree.unlocked[i] = false;
+        }
+        for (int i = 0; i < skillTree.unlocked.Length; i++)
+        {
+            skillTree.unlocked[i] = data.unlockedSkill[i];
+        }
+        skillTree.skillPoint = data.points;
+        skillTree.UpdateSkillUI();
+    }
+
+    public void loadPos()
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+        Vector2 pos;
+        pos.x = data.position[0];
+        pos.y = data.position[1];
+
+        transform.position = pos;
     }
 
     private IEnumerator Dash()

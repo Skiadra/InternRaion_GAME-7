@@ -39,6 +39,14 @@ public class Skill : MonoBehaviour
                 return;
             }
         }
+
+        //Check koneksi skill tree
+        for (int i = 0; i < connectedSkill.Length; i++)
+        {
+            if (!skillTree.unlocked[connectedSkill[i]] && connectedSkill[i] < id) return;
+            if (skillTree.unlocked[connectedSkill[i]] && connectedSkill[i] > id) return;
+        }
+
         //Jika udah keunlock, maka akan dilock kembali dan skillpoin akan dikembalikan
         if (skillTree.unlocked[id] == true)
         {
@@ -49,11 +57,6 @@ public class Skill : MonoBehaviour
             return;
         }
         if (skillTree.skillPoint < 1) return; //Kalo skill poin gak cukup return
-
-        for (int i = 0; i < connectedSkill.Length; i++)
-        {
-            if (!skillTree.unlocked[connectedSkill[i]]) return;
-        }
 
         skillTree.skillPoint -=1; //SKill poin kurang 1
         Invoke(skillTree.skillEffect[id], 0f); //Aktivasi skill effect
