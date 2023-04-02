@@ -5,11 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MoveToScene : MonoBehaviour
 {
-    [SerializeField] private string newLevel;
+    public string sceneToLoad;
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Player")){
-            SceneManager.LoadScene(newLevel);
-        }
+    public void LoadScene()
+    {
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
