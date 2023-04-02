@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lever : MonoBehaviour
 {
     public GameObject door;
+    public GameObject panel;
     public Sprite leverOnSprite;
 
     private bool isOn = false;
@@ -22,6 +23,8 @@ public class Lever : MonoBehaviour
             isOn = true;
             spriteRenderer.sprite = leverOnSprite;
             door.GetComponent<Door>().OpenDoor();
+        } else if (collision.CompareTag("Player")){
+            panel.SetActive(true);
         }
     }
 }
