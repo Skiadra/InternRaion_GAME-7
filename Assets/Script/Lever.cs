@@ -20,11 +20,22 @@ public class Lever : MonoBehaviour
     {
         if (!isOn)
         {
+            if (collision.CompareTag("Player"))
+            {
+                panel.SetActive(true);
+            }
+
             isOn = true;
             spriteRenderer.sprite = leverOnSprite;
             door.GetComponent<Door>().OpenDoor();
-        } else if (collision.CompareTag("Player")){
-            panel.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            panel.SetActive(false);
         }
     }
 }

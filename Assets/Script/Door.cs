@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
-    private bool isOpen = false;
+    public bool isOpen = false;
     [SerializeField] private string sceneToLoad;
     [SerializeField] private GameObject panel; // reference to the panel GameObject
 
@@ -18,6 +18,14 @@ public class Door : MonoBehaviour
         else if (collision.CompareTag("Player") && !isOpen){
             Debug.Log("You need to activate the lever first!");
             panel.SetActive(true); // display the panel
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            panel.SetActive(false); // hide the panel when the player exits the trigger
         }
     }
 
