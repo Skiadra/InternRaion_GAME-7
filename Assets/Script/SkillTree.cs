@@ -17,7 +17,8 @@ public class SkillTree : MonoBehaviour
     public GameObject skillHolder;
     public int skillPoint;
 
-    private void Awake()
+    private void Awake() {skillTree = this;}
+    private void Start()
     {
         skillTree = this;
         unlocked = new bool[6];

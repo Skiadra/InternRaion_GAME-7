@@ -2205,7 +2205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3289914175891629067, guid: c3063987375c34247b5612f27cd20182, type: 3}
       propertyPath: saveLoadSystem
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3289914175891629068, guid: c3063987375c34247b5612f27cd20182, type: 3}
       propertyPath: hpBar

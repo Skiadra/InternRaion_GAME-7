@@ -3,11 +3,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using static Movement;
 using static SkillTree;
+using UnityEditor.SceneManagement;
+using System.Drawing;
 
 public class GameManager : MonoBehaviour
 {
     int index;
     public int addSkillPoints;
+    [SerializeField] private static bool pointAdded = false;
     public static bool loadStat;
     public static bool newStat;
     public GameObject pauseMenu;
@@ -17,20 +20,23 @@ public class GameManager : MonoBehaviour
         PlayerData data = SaveSystem.LoadPlayer();
         index = data.activeSceneIndex;
         loadStat = true;
-        SceneManager.LoadSceneAsync(index);
+        newStat = false;
+        SceneManager.LoadScene(index);
         Time.timeScale = 1f;
     }
 
     public void NewStart()
     {
         newStat = true;
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex+1);
+        loadStat = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
         Time.timeScale = 1f;
     }
 
     void Start()
     {
-        skillTree.skillPoint += addSkillPoints;
+        if (SceneManager.GetActiveScene().buildIndex > 0 && pointAdded == false)
+            {skillTree.skillPoint += addSkillPoints; pointAdded = true;}
     }
 
     void Update()
@@ -43,6 +49,7 @@ public class GameManager : MonoBehaviour
             var eventSystem = EventSystem.current;
             eventSystem.SetSelectedGameObject(firstPauseButton, new BaseEventData(eventSystem));
         }
-        Debug.Log(skillTree.skillPoint);
+        if (SceneManager.GetActiveScene().buildIndex > 0)
+            Debug.Log(skillTree.skillPoint);
     }
 }

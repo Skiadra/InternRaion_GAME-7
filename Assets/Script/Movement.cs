@@ -54,9 +54,10 @@ public class Movement : MonoBehaviour
 
     // private enum Status { idle, walking, running, jumping, falling}
     // private Status state = Status.idle;
+    private void Awake(){ move = this; }
 
     // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
         if (saveLoadSystem)
         {
@@ -69,6 +70,7 @@ public class Movement : MonoBehaviour
             {
                 loadData();
                 saveData();
+                Debug.Log("Loaded");
             }
         }
         rb =  GetComponent<Rigidbody2D>();
@@ -77,7 +79,6 @@ public class Movement : MonoBehaviour
         anima = GetComponent<Animator>();
         doubleJumpCount = 0;
         inControl = true;
-        move = this;
     }
 
     // Update is called once per frame
