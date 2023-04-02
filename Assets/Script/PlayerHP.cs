@@ -1,43 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerHP : MonoBehaviour
 {
-    [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
-
-    [SerializeField] private Slider hpBar;
-
-    private void Start()
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HPBar hpBar;
+    // Start is called before the first frame update
+    void Start()
     {
         currentHealth = maxHealth;
-        if (hpBar != null)
-        {
-            hpBar.maxValue = maxHealth;
-            hpBar.value = currentHealth;
-        }
+        hpBar.setMaxHealth(maxHealth);
     }
 
-    public void TakeDamage(int damage)
+    // Update is called once per frame
+    void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.Space)){
+        //     TakeDamage(20);
+        // }
+    }
+
+    public void TakeDamage(int damage){
         currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-
-        if (hpBar != null)
-        {
-            hpBar.value = currentHealth;
-        }
-    }
-
-    private void Die()
-    {
-        // Restart the game here
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        hpBar.setHealth(currentHealth);
     }
 }
