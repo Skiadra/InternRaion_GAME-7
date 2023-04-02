@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerHP : MonoBehaviour
 {
@@ -9,8 +11,9 @@ public class PlayerHP : MonoBehaviour
 
     [SerializeField] private Slider hpBar;
 
-    private void Start()
-    {
+    private bool isHealing = false;
+
+    private void Start() {
         currentHealth = maxHealth;
         if (hpBar != null)
         {
@@ -21,16 +24,44 @@ public class PlayerHP : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
+        if (!isHealing) // check if player is currently being healed
         {
-            Die();
-        }
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
 
-        if (hpBar != null)
-        {
-            hpBar.value = currentHealth;
+            if (hpBar != null)
+            {
+                hpBar.value = currentHealth;
+            }
         }
+    }
+
+    public void receiveHeal(int heal){
+        if (currentHealth < maxHealth) // check if player is not already at full health
+        {
+            currentHealth += heal;
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+
+            if (hpBar != null)
+            {
+                hpBar.value = currentHealth;
+            }
+
+            StartCoroutine(HealingEffect()); // start healing effect
+        }
+    }
+
+    private IEnumerator HealingEffect()
+    {
+        isHealing = true;
+        yield return new WaitForSeconds(1f); // adjust duration of healing effect as needed
+        isHealing = false;
     }
 
     private void Die()

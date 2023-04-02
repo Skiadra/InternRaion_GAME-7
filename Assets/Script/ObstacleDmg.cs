@@ -16,7 +16,7 @@ using UnityEngine;
 public class ObstacleDmg : MonoBehaviour
 {
     [SerializeField] private int damage;
-    [SerializeField] private float damageInterval = 2f;
+    [SerializeField] private float damageInterval = 1f;
 
     private bool isPlayerInside = false;
 
