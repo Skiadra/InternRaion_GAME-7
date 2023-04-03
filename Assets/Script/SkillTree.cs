@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SkillTree : MonoBehaviour
 {
@@ -16,11 +17,12 @@ public class SkillTree : MonoBehaviour
     public List<Skill> skillList;
     public GameObject skillHolder;
     public int skillPoint;
+    public int[] addSkillPoints;
 
     private void Awake() {skillTree = this;}
     private void Start()
     {
-        skillTree = this;
+
         unlocked = new bool[6];
         // skillNames = new[] {"Double Splash", "High Splash", "Slow Fall", "Splash Dash"};
         // skillEffect = new[] {"dJump", "hJump", "sFall", "sDash"};
@@ -36,6 +38,12 @@ public class SkillTree : MonoBehaviour
     public void UpdateSkillUI()
     {
         foreach (var skill in skillList) skill.UpdateUI(); //Update UI tiap skill
+    }
+
+    public void skillPointAdd()
+    {
+        skillPoint += addSkillPoints[SceneManager.GetActiveScene().buildIndex];
+        addSkillPoints[SceneManager.GetActiveScene().buildIndex] = 0;
     }
 
 }

@@ -2717,6 +2717,10 @@ PrefabInstance:
       propertyPath: skillPoint
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 478484358, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
+      propertyPath: addSkillPoints.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6472223838183973274, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_Name
       value: Canvas

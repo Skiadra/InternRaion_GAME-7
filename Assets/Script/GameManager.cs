@@ -9,8 +9,6 @@ using System.Drawing;
 public class GameManager : MonoBehaviour
 {
     int index;
-    public int addSkillPoints;
-    [SerializeField] private static bool pointAdded = false;
     public static bool loadStat;
     public static bool newStat;
     public GameObject pauseMenu;
@@ -31,12 +29,6 @@ public class GameManager : MonoBehaviour
         loadStat = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
         Time.timeScale = 1f;
-    }
-
-    void Start()
-    {
-        if (SceneManager.GetActiveScene().buildIndex > 0 && pointAdded == false)
-            {skillTree.skillPoint += addSkillPoints; pointAdded = true;}
     }
 
     void Update()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Movement;
 
 public class Door : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Door : MonoBehaviour
     {
         if (collision.CompareTag("Player") && isOpen)
         {
+            move.saveData();
             SceneManager.LoadScene(sceneToLoad);
         }
         else if (collision.CompareTag("Player") && !isOpen){

@@ -13,6 +13,7 @@ public class PlayerData
     public bool[] unlockedSkill;
     public int points;
     public float[] position;
+    public int[] skillPointsEachLevel;
 
     public PlayerData (Movement mov, SkillTree st)
     {
@@ -38,5 +39,7 @@ public class PlayerData
 
         position[0] = mov.transform.position.x;
         position[1] = mov.transform.position.y;
+
+        skillPointsEachLevel = st.addSkillPoints;
     }
 }

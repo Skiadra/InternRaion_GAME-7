@@ -69,10 +69,11 @@ public class Movement : MonoBehaviour
             if (!GameManager.newStat)
             {
                 loadData();
-                saveData();
                 Debug.Log("Loaded");
             }
         }
+        GameManager.newStat = false;
+        skillTree.skillPointAdd();
         rb =  GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
@@ -311,6 +312,7 @@ public class Movement : MonoBehaviour
         absorb = data.canAbsorb;
         maxFallSpeed = data.maxFallSpeed;
         maxWallJump = data.maxWallJump;
+        skillTree.addSkillPoints = data.skillPointsEachLevel;
         for (int i = 0; i < skillTree.unlocked.Length; i++)
         {
             skillTree.unlocked[i] = false;
