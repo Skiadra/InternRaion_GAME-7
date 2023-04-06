@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 public class Skill : MonoBehaviour, ISelectHandler
 {
     public int id;
-    public object temp;
     public TMP_Text namae;
     public TMP_Text des;
     public int[] connectedSkill;
@@ -38,7 +37,6 @@ public class Skill : MonoBehaviour, ISelectHandler
 
     public void GetSkill()
     {
-        //Check jika ada skill lain yg udah aktif maka getSKill tidak dijalankan
         if (id != skillTree.unlocked.Length-1)
         {
             if (skillTree.unlocked[id+1] == true && id%2 == 0)

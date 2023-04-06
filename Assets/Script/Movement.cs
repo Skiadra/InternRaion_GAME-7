@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private BoxCollider2D collide;
-    private Animator anima;
+    // private Animator anima;
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] private LayerMask jumpableGround;
@@ -52,8 +52,8 @@ public class Movement : MonoBehaviour
     public float yWallJump;
 
 
-    // private enum Status { idle, walking, running, jumping, falling}
-    // private Status state = Status.idle;
+    private enum Status { idle, walking, running, jumping, falling}
+    private Status state = Status.idle;
     private void Awake(){ move = this; }
 
     // Start is called before the first frame update
@@ -74,10 +74,11 @@ public class Movement : MonoBehaviour
         }
         GameManager.newStat = false;
         skillTree.skillPointAdd();
+        saveData();
         rb =  GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
-        anima = GetComponent<Animator>();
+        // anima = GetComponent<Animator>();
         doubleJumpCount = 0;
         inControl = true;
     }
@@ -221,48 +222,45 @@ public class Movement : MonoBehaviour
 
         Debug.Log(dashReset);
 
-        // Animate();
+    //     Animate();
     }
 
     // private void Animate()
     // {
-    //     // Status state;
+    //     Status state;
         
-    //     // if (dirX > 0 && wallHug == false)
-    //     // {
-    //     //     sprite.flipX = true;
-    //     //     state = Status.walking;
-    //     //     if (rb.velocity.x >= 20)
-    //     //     {
-    //     //         state = Status.running;
-    //     //     }
-    //     // } else if (dirX < 0 && wallHug == false)
-    //     // {
-    //     //     state = Status.walking;
-    //     //     sprite.flipX = false;
-    //     //     if (rb.velocity.x <= -20)
-    //     //     {
-    //     //         state = Status.running;
-    //     //     }
-    //     // } else
-    //     // {
-    //     //     state = Status.idle;
-    //     // }
+    //     if (dirX > 0 && wallHug == false)
+    //     {
+    //         sprite.flipX = true;
+    //         state = Status.walking;
+    //     } else if (dirX < 0 && wallHug == false)
+    //     {
+    //         state = Status.walking;
+    //         sprite.flipX = false;
+    //     } else
+    //     {
+    //         state = Status.idle;
+    //     }
 
-    //     // if (rb.velocity.y > 0.01)
-    //     // {
-    //     //     state = Status.jumping;
-    //     // } else if (rb.velocity.y < -0.1 && IsGrounded() == false)
-    //     // {
-    //     //     state = Status.falling;
-    //     // }
+    //     if (rb.velocity.y > 0.01)
+    //     {
+    //         state = Status.jumping;
+    //     } else if (rb.velocity.y < -0.1 && IsGrounded() == false)
+    //     {
+    //         state = Status.falling;
+    //     }
 
-    //     // if(wallJump)
-    //     // {
-    //     //     sprite.flipX = true;
-    //     // }
+    //     if (isDashing)
+    //     {
+    //         state = Status.running;
+    //     }
 
-    //     // anima.SetInteger("state", (int)state);
+    //     if(wallJump)
+    //     {
+    //         sprite.flipX = true;
+    //     }
+
+    //     anima.SetInteger("state", (int)state);
     // }
 
     private bool IsGrounded()
