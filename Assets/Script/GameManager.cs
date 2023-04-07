@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using static Movement;
 using static SkillTree;
+using VSCodeEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static bool newStat;
     public GameObject pauseMenu;
     public GameObject firstPauseButton;
+    public GameObject guide;
     public void loadLevel()
     {
         PlayerData data = SaveSystem.LoadPlayer();
@@ -32,6 +34,16 @@ public class GameManager : MonoBehaviour
     public void quitGame()
     {
         Application.Quit();
+    }
+
+    public void guideMenuOn()
+    {
+        guide.SetActive(true);
+    }
+
+    public void guideMenuOff()
+    {
+        guide.SetActive(false);
     }
 
     void Update()
