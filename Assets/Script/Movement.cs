@@ -59,18 +59,15 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (saveLoadSystem)
+        if (GameManager.loadStat)
         {
-            if (GameManager.loadStat)
-            {
-                loadPos();
-                GameManager.loadStat = false;
-            }
-            if (!GameManager.newStat)
-            {
-                loadData();
-                Debug.Log("Loaded");
-            }
+            loadPos();
+            GameManager.loadStat = false;
+        }
+        if (!GameManager.newStat)
+        {
+            loadData();
+            Debug.Log("Loaded");
         }
         GameManager.newStat = false;
         skillTree.skillPointAdd();

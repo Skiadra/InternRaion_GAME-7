@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using static Movement;
 using static SkillTree;
-using UnityEditor.SceneManagement;
-using System.Drawing;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +27,11 @@ public class GameManager : MonoBehaviour
         loadStat = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
         Time.timeScale = 1f;
+    }
+
+    public void quitGame()
+    {
+        Application.Quit();
     }
 
     void Update()

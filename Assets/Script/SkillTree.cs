@@ -19,10 +19,9 @@ public class SkillTree : MonoBehaviour
     public int skillPoint;
     public int[] addSkillPoints;
 
-    private void Awake() {skillTree = this;}
-    private void Start()
+    private void Awake()
     {
-
+        skillTree = this;
         unlocked = new bool[6];
         // skillNames = new[] {"Double Splash", "High Splash", "Slow Fall", "Splash Dash"};
         // skillEffect = new[] {"dJump", "hJump", "sFall", "sDash"};
