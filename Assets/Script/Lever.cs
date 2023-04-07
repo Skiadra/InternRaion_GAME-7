@@ -6,14 +6,18 @@ public class Lever : MonoBehaviour
 {
     public GameObject door;
     public GameObject panel;
-    public Sprite leverOnSprite;
 
     private bool isOn = false;
-    private SpriteRenderer spriteRenderer;
+    private Animator anim;
+    private BoxCollider2D boxCollider;
 
-    private void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    private void Awake() {
+        anim = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void Update() {
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,11 +26,11 @@ public class Lever : MonoBehaviour
         {
             if (collision.CompareTag("Player"))
             {
+                anim.SetTrigger("open");
                 panel.SetActive(true);
             }
 
             isOn = true;
-            spriteRenderer.sprite = leverOnSprite;
             door.GetComponent<Door>().OpenDoor();
         }
     }
