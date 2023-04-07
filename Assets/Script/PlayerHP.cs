@@ -13,6 +13,12 @@ public class PlayerHP : MonoBehaviour
 
     private bool isHealing = false;
 
+    // Starting position of the player
+    private Vector3 startingPosition;
+
+    // Y position threshold for falling off the cliff
+    private float fallThreshold = -50f;
+
     private void Start() {
         currentHealth = maxHealth;
         if (hpBar != null)
@@ -20,6 +26,9 @@ public class PlayerHP : MonoBehaviour
             hpBar.maxValue = maxHealth;
             hpBar.value = currentHealth;
         }
+
+        // Store the starting position of the player
+        startingPosition = transform.position;
     }
 
     public void TakeDamage(int damage)
@@ -66,7 +75,19 @@ public class PlayerHP : MonoBehaviour
 
     private void Die()
     {
+        // Reset the player's position to the starting position
+        transform.position = startingPosition;
+
         // Restart the game here
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void Update()
+    {
+        // Check if the player has fallen off the cliff
+        if (transform.position.y < fallThreshold)
+        {
+            Die();
+        }
     }
 }
