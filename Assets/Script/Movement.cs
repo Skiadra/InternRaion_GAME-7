@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private BoxCollider2D collide;
-    // private Animator anima;
+    private Animator anima;
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] private LayerMask jumpableGround;
@@ -75,7 +75,7 @@ public class Movement : MonoBehaviour
         rb =  GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         collide = GetComponent<BoxCollider2D>();
-        // anima = GetComponent<Animator>();
+        anima = GetComponent<Animator>();
         doubleJumpCount = 0;
         inControl = true;
     }
@@ -219,46 +219,46 @@ public class Movement : MonoBehaviour
 
         Debug.Log(dashReset);
 
-    //     Animate();
+        Animate();
     }
 
-    // private void Animate()
-    // {
-    //     Status state;
+    private void Animate()
+    {
+        Status state;
         
-    //     if (dirX > 0 && wallHug == false)
-    //     {
-    //         sprite.flipX = true;
-    //         state = Status.walking;
-    //     } else if (dirX < 0 && wallHug == false)
-    //     {
-    //         state = Status.walking;
-    //         sprite.flipX = false;
-    //     } else
-    //     {
-    //         state = Status.idle;
-    //     }
+        if (dirX > 0 && wallHug == false)
+        {
+            sprite.flipX = true;
+            state = Status.walking;
+        } else if (dirX < 0 && wallHug == false)
+        {
+            state = Status.walking;
+            sprite.flipX = false;
+        } else
+        {
+            state = Status.idle;
+        }
 
-    //     if (rb.velocity.y > 0.01)
-    //     {
-    //         state = Status.jumping;
-    //     } else if (rb.velocity.y < -0.1 && IsGrounded() == false)
-    //     {
-    //         state = Status.falling;
-    //     }
+        if (rb.velocity.y > 0.01 && !wallHug)
+        {
+            state = Status.jumping;
+        } else if (rb.velocity.y < -0.1 && IsGrounded() == false && !wallHug)
+        {
+            state = Status.falling;
+        }
 
-    //     if (isDashing)
-    //     {
-    //         state = Status.running;
-    //     }
+        if (isDashing)
+        {
+            state = Status.running;
+        }
 
-    //     if(wallJump)
-    //     {
-    //         sprite.flipX = true;
-    //     }
+        if(wallJump)
+        {
+            sprite.flipX = true;
+        }
 
-    //     anima.SetInteger("state", (int)state);
-    // }
+        anima.SetInteger("state", (int)state);
+    }
 
     private bool IsGrounded()
     {

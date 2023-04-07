@@ -2799,10 +2799,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3289914175891629062, guid: c3063987375c34247b5612f27cd20182, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3289914175891629063, guid: c3063987375c34247b5612f27cd20182, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3041,6 +3037,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6472223838264209175, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fae2cd989c89764429128d60a7592fc4, type: 3}
     - target: {fileID: 6472223839130490951, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
