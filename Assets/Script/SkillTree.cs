@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SkillTree : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class SkillTree : MonoBehaviour
     public List<Skill> skillList;
     public GameObject skillHolder;
     public int skillPoint;
+    public TMP_Text skillPointUI;
     public int[] addSkillPoints;
 
     private void Awake()
@@ -37,6 +40,7 @@ public class SkillTree : MonoBehaviour
     public void UpdateSkillUI()
     {
         foreach (var skill in skillList) skill.UpdateUI(); //Update UI tiap skill
+        skillPointUI.text = $"{skillPoint}";
     }
 
     public void skillPointAdd()
