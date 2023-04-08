@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using static Movement;
 using static SkillTree;
-using VSCodeEditor;
 
 public class GameManager : MonoBehaviour
 {
