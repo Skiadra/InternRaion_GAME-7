@@ -3334,7 +3334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -7.836685, y: 13.966653}
+  m_AnchoredPosition: {x: 3.7000008, y: -5}
   m_SizeDelta: {x: 89.74, y: 72.89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &893566793
@@ -4567,6 +4567,10 @@ PrefabInstance:
       propertyPath: addSkillPoints.Array.data[2]
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 989677243, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6472223838183973274, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -4661,11 +4665,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6472223838264209174, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -11.6
+      value: 0.40000153
       objectReference: {fileID: 0}
     - target: {fileID: 6472223838264209174, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 18.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6472223839130490951, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -4681,11 +4685,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6472223839740070688, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -11.599998
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6472223839740070688, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 18.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6472223839740070689, guid: 715f59493c07b8f4ebe139a4d87a84b1, type: 3}
       propertyPath: m_Color.b
