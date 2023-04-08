@@ -32,7 +32,7 @@ public class PlayerCollision : MonoBehaviour
 
     void Update()
     {
-        if (interact && Input.GetKeyDown(KeyCode.UpArrow) && !isInteracting)
+        if (interact && Input.GetKeyDown(KeyCode.UpArrow) && !isInteracting && move.inControl)
         {
             interactButton.SetActive(false);
             menu.SetActive(true);
